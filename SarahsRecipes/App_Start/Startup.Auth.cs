@@ -50,19 +50,20 @@ namespace SarahsRecipes
             //    clientId: "",
             //    clientSecret: "");
 
-            //app.UseTwitterAuthentication(
-            //   consumerKey: "",
-            //   consumerSecret: "");
+            app.UseTwitterAuthentication(
+               consumerKey: "IuyaaxLql66xlfZxdp21NUqHh",
+               consumerSecret: "EhJvqNVG7G66TB3lsaUixZExnAo9UkisrnrbGude8NTaQn8emK");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "1612834398962924",
+               appSecret: "fda191151e4529de3ea934c7168f8ca7");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+            
         }
     }
 }
