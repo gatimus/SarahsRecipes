@@ -9,6 +9,11 @@ namespace SarahsRecipes.Models
 {
     public class Recipe
     {
+        public Recipe()
+        {
+            this.Ingredients = new HashSet<Ingredient>();
+        }
+
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
@@ -25,16 +30,12 @@ namespace SarahsRecipes.Models
         public string Protein { get; set; }
         public string Meal { get; set; }
         public string Directions { get; set; }
+
+        public virtual ICollection<Ingredient> Ingredients { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
+        public string ApplicationUserId { get; set; }
     }
 
-    public class RecipeDbContext : DbContext
-    {
-        public RecipeDbContext()
-            : base("DefaultConnection")
-        {
 
-        }
-
-        public DbSet<Recipe> Recipes { get; set; }
-    }
 }

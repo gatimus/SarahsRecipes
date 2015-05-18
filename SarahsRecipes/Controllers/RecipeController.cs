@@ -6,18 +6,36 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using SarahsRecipes.Models;
+using System.Data.Entity.Validation;
 
 namespace SarahsRecipes.Controllers
 {
     public class RecipeController : Controller
     {
-        private RecipeDbContext db = new RecipeDbContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Recipe
         public ActionResult Index()
         {
-            return View(db.Recipes.ToList());
+            ActionResult view = View();
+            try
+            {
+                view = View(db.Recipes.ToList());
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (var validationError in ex.EntityValidationErrors)
+                {
+                    foreach (var errorDetail in validationError.ValidationErrors)
+                    {
+                        Console.WriteLine("Property: {0} Error: {1}",
+                            errorDetail.PropertyName, errorDetail.ErrorMessage);
+                    }
+                }
+            }
+            return view;
         }
 
         // GET: Recipe/Details/5
@@ -36,6 +54,7 @@ namespace SarahsRecipes.Controllers
         }
 
         // GET: Recipe/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -45,11 +64,13 @@ namespace SarahsRecipes.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,PrepTime,CookTime,Serves,Category,SubCat,Hot,Protein,Meal,Directions")] Recipe recipe)
         {
             if (ModelState.IsValid)
             {
+                recipe.ApplicationUserId = User.Identity.GetUserId();
                 db.Recipes.Add(recipe);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -59,6 +80,7 @@ namespace SarahsRecipes.Controllers
         }
 
         // GET: Recipe/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -77,6 +99,7 @@ namespace SarahsRecipes.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,PrepTime,CookTime,Serves,Category,SubCat,Hot,Protein,Meal,Directions")] Recipe recipe)
         {
@@ -90,6 +113,7 @@ namespace SarahsRecipes.Controllers
         }
 
         // GET: Recipe/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -106,6 +130,7 @@ namespace SarahsRecipes.Controllers
 
         // POST: Recipe/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {

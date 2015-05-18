@@ -29,5 +29,8 @@ namespace SarahsRecipes.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
     }
 }
