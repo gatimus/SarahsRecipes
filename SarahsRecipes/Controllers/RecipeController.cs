@@ -22,7 +22,8 @@ namespace SarahsRecipes.Controllers
             ActionResult view = View();
             try
             {
-                view = View(db.Recipes.ToList());
+                var recipes = db.Recipes.Include(t => t.User);
+                view = View(recipes.ToList());
             }
             catch (DbEntityValidationException ex)
             {
