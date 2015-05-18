@@ -58,11 +58,11 @@ namespace SarahsRecipes
                appId: "1612834398962924",
                appSecret: "fda191151e4529de3ea934c7168f8ca7");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "410754723924-enl2m35vmuas6fs1apqsu2ug81ofrhi5",
+                ClientSecret = "kt8_ldLxJe1MiI946Hzw1rxN"
+            });
             
         }
     }
